@@ -19,7 +19,7 @@ static lem_eo_t eo_array[] = {EO_0, EO_1, EO_2};
 // clang-format off
 TEST_GROUP(LEM_UT_Dispatcher){
     void setup() {
-        lem_register_eo_table(eo_array);
+        lem_init_eo_table(eo_array);
     }
     void teardown() {
         for (size_t i = 0; i < 3; i++) {
@@ -86,15 +86,15 @@ TEST(LEM_UT_Dispatcher, dispatch_multi_queues_high_priority_first) {
 }
 
 TEST(LEM_UT_Dispatcher, dispatch_single_queue_events_fifo_order) {
-    lem_event_t *events[LEM_QUEUE_SIZE_PLUS_1 - 1] = {0};
+    lem_event_t *events[LEM_QUEUE_SIZE] = {0};
 
-    for (size_t i = 0; i < (LEM_QUEUE_SIZE_PLUS_1 - 1); i++) {
+    for (size_t i = 0; i < LEM_QUEUE_SIZE; i++) {
         events[i] = lem_alloc();
         events[i]->eo_id = 0;
         lem_send(events[i], 0);
     }
 
-    for (size_t i = 0; i < (LEM_QUEUE_SIZE_PLUS_1 - 1); i++) {
+    for (size_t i = 0; i < LEM_QUEUE_SIZE; i++) {
         lem_dispatch();
         CHECK(EO_last_event[0] == events[i]);
     }

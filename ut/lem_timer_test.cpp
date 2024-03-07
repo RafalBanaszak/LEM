@@ -27,7 +27,7 @@ static lem_event_t *UT_alloc_for_EO_0() {
 // clang-format off
 TEST_GROUP(LEM_UT_Timer){
     void setup() {
-        lem_register_eo_table(eo_array);
+        lem_init_eo_table(eo_array);
         if(LEM_TIMERS_NUMBER > LEM_QUEUE_SIZE) {
             FAIL("Queue size must be greater than or equal to the number of timers to run the tests");
         }

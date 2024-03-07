@@ -9,22 +9,20 @@ void lem_init(void) {
     // this init function is prepared for future use
 }
 
-void lem_register_eo_table(lem_eo_t *const eo_array) { lem_dispatcher_assign_eo_array(eo_array); }
+void lem_init_eo_table(lem_eo_t *const eo_array) { lemi_init_eo_table(eo_array); }
 
-lem_event_t *lem_alloc(void) { return lem_event_alloc(); }
+lem_event_t *lem_alloc(void) { return lemi_event_alloc(); }
 
-void lem_free(lem_event_t *event) { lem_event_free(event); }
+void lem_free(lem_event_t *event) { lemi_event_free(event); }
 
-lem_bool_t lem_send(const lem_event_t *const event, const lem_queue_index_t queue) {
-    return lem_queue_put_lockless(event, &lem_queue_list[queue]);
+lem_bool_t lem_send(const lem_event_t *const event, const lem_queue_index_t queue) { return lemi_queue_put_lockless(event, &lem_queue_list[queue]); }
+
+void lem_dispatch(void) { lemi_dispatch(); }
+
+void lem_timer_tick(void) { lemi_soft_timer_tick(); }
+
+lem_timer_index_t lem_timer_create(lem_timer_counter_t delay, lem_event_t *event, lem_queue_index_t queue_index) {
+    return lemi_soft_timer_create(delay, event, queue_index);
 }
 
-void lem_dispatch(void) { lem_dispatch_internal(); }
-
-void lem_timer_tick(void) { lem_soft_timer_tick(); }
-
-lem_timer_index_t lem_timer_create(lem_timer_diff_t delay, lem_event_t *event, lem_queue_index_t queue_index) {
-    return lem_soft_timer_create(delay, event, queue_index);
-}
-
-void lem_timer_delete(lem_timer_index_t timer) { lem_soft_timer_delete(timer); }
+void lem_timer_delete(lem_timer_index_t timer) { lemi_soft_timer_delete(timer); }

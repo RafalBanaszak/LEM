@@ -4,7 +4,7 @@ volatile lem_timer_counter_t lem_time = 0;
 volatile lem_timer_t lem_timers[LEM_TIMERS_NUMBER];
 volatile lem_timer_index_t lem_timers_array_start_index = 0;
 
-lem_timer_index_t lem_soft_timer_create(lem_timer_diff_t delay, lem_event_t *event, lem_queue_index_t queue_index) {
+lem_timer_index_t lemi_soft_timer_create(lem_timer_counter_t delay, lem_event_t *event, lem_queue_index_t queue_index) {
     lem_timer_index_t start_index = lem_timers_array_start_index;
     lem_timer_index_t i, current_index;
     lem_bool_t CAS_success;
@@ -16,7 +16,7 @@ lem_timer_index_t lem_soft_timer_create(lem_timer_diff_t delay, lem_event_t *eve
         }
 
         CAS_expected_val = LEM_TIMER_FREE;
-        CAS_success = lem_CAS_byte(&(lem_timers[current_index].lock), &CAS_expected_val, (uint8_t)LEM_TIMER_RESERVED);
+        CAS_success = lem_atomic_CAS_byte(&(lem_timers[current_index].lock), &CAS_expected_val, (uint8_t)LEM_TIMER_RESERVED);
         if (!CAS_success) {
             continue;
         }
@@ -32,7 +32,7 @@ lem_timer_index_t lem_soft_timer_create(lem_timer_diff_t delay, lem_event_t *eve
     return LEM_TIMERS_NUMBER;
 }
 
-void lem_soft_timer_delete(lem_timer_index_t timer) {
+void lemi_soft_timer_delete(lem_timer_index_t timer) {
     uint8_t CAS_expected_val = LEM_TIMER_READY;
-    lem_CAS_byte(&(lem_timers[timer].lock), &CAS_expected_val, (uint8_t)LEM_TIMER_FREE);
+    lem_atomic_CAS_byte(&(lem_timers[timer].lock), &CAS_expected_val, (uint8_t)LEM_TIMER_FREE);
 }

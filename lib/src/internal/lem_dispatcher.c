@@ -4,9 +4,9 @@
 
 lem_eo_t *lem_eo_array;
 
-void lem_dispatcher_assign_eo_array(lem_eo_t eo_array[]) { lem_eo_array = eo_array; }
+void lemi_init_eo_table(lem_eo_t eo_array[]) { lem_eo_array = eo_array; }
 
-void lem_dispatch_internal(void) {
+void lemi_dispatch(void) {
     lem_event_t *event = NULL;
     /* Highest priority queue was empty or not known so find the right one */
     for (lem_queue_index_t i = LEM_QUEUES_NUMBER - 1; i >= 0; i--) {

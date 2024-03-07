@@ -16,7 +16,7 @@ static inline lem_event_pool_pos_t increment_rewind_pool_pos(lem_event_pool_pos_
     return val;
 }
 
-lem_event_t *lem_event_alloc(void);
-void lem_event_free(lem_event_t *const event);
+lem_event_t *lemi_event_alloc(void);
+void lemi_event_free(lem_event_t *const event);
 
 #endif /* LEM_EVENT_H */

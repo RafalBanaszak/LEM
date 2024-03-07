@@ -8,7 +8,7 @@ static lem_eo_t eo_array[] = {EO_dummy};
 // clang-format off
 TEST_GROUP(LEM_UT_Send){
     void setup() {
-        lem_register_eo_table(eo_array);
+        lem_init_eo_table(eo_array);
     }
     void teardown() {}
 };
@@ -17,7 +17,7 @@ TEST_GROUP(LEM_UT_Send){
 TEST(LEM_UT_Send, send_single) {
     lem_event_t *event = lem_alloc();
 
-    CHECK(lem_send(event, 0) == LEM_SEND_SUCCESS);
+    CHECK(lem_send(event, 0) == lem_success);
 
     lem_dispatch();
     lem_free(event);
@@ -28,7 +28,7 @@ TEST(LEM_UT_Send, send_full) {
 
     for (size_t i = 0; i < LEM_QUEUE_SIZE; i++) {
         events[i] = lem_alloc();
-        CHECK(lem_send(events[i], 0) == LEM_SEND_SUCCESS);
+        CHECK(lem_send(events[i], 0) == lem_success);
     }
 
     for (size_t i = 0; i < LEM_QUEUE_SIZE; i++) {
@@ -46,7 +46,7 @@ TEST(LEM_UT_Send, send_single_overflow) {
     }
 
     lem_event_t *extra_event = lem_alloc();
-    CHECK(lem_send(events[LEM_QUEUE_SIZE], 0) == LEM_SEND_FAIL);
+    CHECK(lem_send(events[LEM_QUEUE_SIZE], 0) == lem_fail);
 
     for (size_t i = 0; i < LEM_QUEUE_SIZE; i++) {
         lem_dispatch();
@@ -71,7 +71,7 @@ TEST(LEM_UT_Send, send_single_overflow_with_shift) {
     }
 
     lem_event_t *extra_event = lem_alloc();
-    CHECK(lem_send(events[LEM_QUEUE_SIZE], 0) == LEM_SEND_FAIL);
+    CHECK(lem_send(events[LEM_QUEUE_SIZE], 0) == lem_fail);
     lem_free(extra_event);
 
     for (size_t i = 0; i < LEM_QUEUE_SIZE; i++) {
@@ -90,7 +90,7 @@ TEST(LEM_UT_Send, send_multiple_overflow) {
 
     for (size_t i = 0; i < LEM_QUEUE_SIZE + 2; i++) {
         lem_event_t *extra_event = lem_alloc();
-        CHECK(lem_send(events[LEM_QUEUE_SIZE], 0) == LEM_SEND_FAIL);
+        CHECK(lem_send(events[LEM_QUEUE_SIZE], 0) == lem_fail);
         lem_free(extra_event);
     }
 

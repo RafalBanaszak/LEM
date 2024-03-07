@@ -11,7 +11,7 @@ typedef struct __attribute__((packed)) lem_timer_t {
     lem_timer_counter_t expiration_time;
     lem_event_t *event;
     lem_queue_index_t queue_index;
-    uint8_t lock;
+    uint8_t ATOMIC lock;
 } lem_timer_t;
 
 extern volatile lem_timer_counter_t lem_time;
@@ -28,7 +28,7 @@ static inline lem_bool_t lem_soft_timer_check_expired(const volatile lem_timer_t
     return ((lem_timer_diff_t)(timer->expiration_time - lem_time)) <= 0;
 }
 
-static inline void lem_soft_timer_tick(void) {
+static inline void lemi_soft_timer_tick(void) {
     lem_bool_t CAS_success;
     lem_timer_status_t expected_timer_status;
 
@@ -39,7 +39,7 @@ static inline void lem_soft_timer_tick(void) {
         };
 
         expected_timer_status = LEM_TIMER_READY;
-        CAS_success = lem_CAS_byte(&(lem_timers[i].lock), (uint8_t *)&expected_timer_status, (uint8_t)LEM_TIMER_HANDLED);
+        CAS_success = lem_atomic_CAS_byte(&(lem_timers[i].lock), (uint8_t *)&expected_timer_status, (uint8_t)LEM_TIMER_HANDLED);
         if (!CAS_success) {
             continue;
         }
@@ -55,7 +55,7 @@ static inline void lem_soft_timer_tick(void) {
     }
 }
 
-lem_timer_index_t lem_soft_timer_create(lem_timer_diff_t delay, lem_event_t *event, lem_queue_index_t queue_index);
-void lem_soft_timer_delete(lem_timer_index_t timer);
+lem_timer_index_t lemi_soft_timer_create(lem_timer_counter_t delay, lem_event_t *event, lem_queue_index_t queue_index);
+void lemi_soft_timer_delete(lem_timer_index_t timer);
 
 #endif /* LEM_SOFT_TIMER_H */
