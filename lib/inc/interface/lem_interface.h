@@ -7,19 +7,18 @@
 extern "C" {
 #endif
 
-typedef struct lem_event_t {
-    struct __attribute__((packed)) {
-        uint16_t user_space;
-        uint8_t eo_id;
-        uint8_t lock;
-    };
-    void *payload;
-} lem_event_t;
-#define LEM_EVENT_USER_SPACE_MAX UINT16_MAX;
-#define LEM_EO_NUMBER_MAX UINT8_MAX;
-
 #define LEM_SEND_SUCCESS lem_true
 #define LEM_SEND_FAIL lem_false
+
+typedef struct  lem_event_t {
+#ifdef LEM_EVENT_DATA_ENABLE
+    lem_event_data_t data;
+#endif
+    struct __attribute__((packed)) {
+        uint8_t lock;
+        uint8_t eo_id;
+    };
+} lem_event_t;
 
 typedef void (*lem_eo_t)(lem_event_t *const event);
 

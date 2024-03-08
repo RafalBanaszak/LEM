@@ -14,7 +14,7 @@ lem_bool_t lem_queue_put_lockless(const lem_event_t *const event, lem_queue_t *c
     lem_queue_pos_t q_end = queue->end;
 
     do {
-        new_q_end = increment_rewind_queue_pos(q_end, LEM_QUEUE_SIZE_PLUS_1);
+        new_q_end = increment_rewind_queue_pos(q_end, LEM_QUEUE_SIZE + 1);
 
         /* queue start atomic read - queue start could only move to the
         right so it's thread safe (we can got only false negative (queue
@@ -40,7 +40,7 @@ lem_event_t *lem_queue_pop_naive(lem_queue_t *const queue) {
     }
 
     event = queue->buffer[queue->start];
-    queue->start = increment_rewind_queue_pos(queue->start, LEM_QUEUE_SIZE_PLUS_1);
+    queue->start = increment_rewind_queue_pos(queue->start, LEM_QUEUE_SIZE + 1);
 
 exit:
     return (lem_event_t *)event;

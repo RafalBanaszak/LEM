@@ -27,16 +27,12 @@
 #error "LEM: Pool size larger than maximum allowed!"
 #endif
 
-#if LEM_QUEUE_SIZE_PLUS_1 > LEM_QUEUE_SIZE_PLUS_1_MAX
+#if LEM_QUEUE_SIZE > LEM_QUEUE_SIZE
 #error "LEM: Queue size larger than maximum allowed!"
 #endif
 
 #if LEM_QUEUES_NUMBER > LEM_QUEUES_NUMBER_MAX
 #error "LEM: Number of queues greater than maximum allowed!"
-#endif
-
-#if LEM_EO_NUMBER > LEM_EO_NUMBER_MAX
-#error "LEM: Number of EOs greater than maximum allowed!"
 #endif
 
 #endif /* LEM_PLATFORM_PLATFORM_H*/

@@ -13,6 +13,11 @@ LEM features include:
 - Easy to use API
 - Open-source and free to use
 
+## Idea
+- An event represents a job that needs to be done.
+- The events are pre-allocated statically in a pool. ```em_alloc``` returns a free event from the pool. ```em_free``` returns the event to the pool.
+- User configures the event. 
+
 ## Build and installation
 1. Clone the repository:
     ```bash
@@ -34,6 +39,8 @@ LEM features include:
     cd build
     cmake -DCMAKE_BUILD_TYPE=Release CMAKE_C_COMPILER=<C_compiler_path> -DARCH=ARMV6M ..
     ```
+   > (Optional) If you want to build the unit tests set the UT_ENABLE option to ON. <br>
+   > ```-DUT_ENABLE=ON``` 
 1. Build the library
     ```bash
     cmake --build .

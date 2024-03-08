@@ -4,7 +4,15 @@ include(CMakePrintHelpers)
 project(LEM)
 
 add_subdirectory(lib/)
-add_subdirectory(ut/ EXCLUDE_FROM_ALL)
+
+option(UT_ENABLE "Enable unit tests" OFF)
+if(UT_ENABLE)
+    add_subdirectory(ut/ EXCLUDE_FROM_ALL)
+    add_custom_target(
+            test
+            COMMAND ./ut/ut
+    )
+endif()
 
 # Helper target to run clang-format on all source files
 file(GLOB_RECURSE ALL_SOURCE_FILES lib/*.[ch])

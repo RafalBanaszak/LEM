@@ -21,7 +21,7 @@ typedef uint_fast8_t lem_event_pool_pos_t;
 #define LEM_EVENT_POOL_SIZE_MAX UINT_FAST8_MAX
 
 typedef uint_fast8_t lem_queue_pos_t;
-#define LEM_QUEUE_SIZE_PLUS_1_MAX UINT_FAST8_MAX
+#define LEM_QUEUE_SIZE_MAX (UINT_FAST8_MAX-1)
 
 typedef int_fast8_t lem_queue_index_t; /* This must be SIGNED type*/
 #define LEM_QUEUES_NUMBER_MAX INT_FAST8_MAX

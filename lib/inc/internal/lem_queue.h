@@ -8,7 +8,7 @@ typedef enum lem_queue_status_t { LEM_QUEUE_OK = 0, LEM_QUEUE_FULL, LEM_QUEUE_EM
 typedef struct lem_queue_t {
     volatile lem_queue_pos_t start;
     volatile lem_queue_pos_t end;
-    volatile lem_event_t *buffer[LEM_QUEUE_SIZE_PLUS_1];
+    volatile lem_event_t *buffer[LEM_QUEUE_SIZE + 1];
 } lem_queue_t;
 
 extern lem_queue_t lem_queue_list[LEM_QUEUES_NUMBER];
